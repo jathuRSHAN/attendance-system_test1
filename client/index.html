@@ -1,0 +1,38 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<head></head>
+
+<body>
+    <form id="loginForm">
+        <input type="text" id="username" placeholder="Username" required="">
+        <input type="password" id="password" placeholder="Password" required="">
+        <button type="submit">Login</button>
+    </form>
+    <script>
+        document.getElementById("loginForm").onsubmit = async function (event) {
+            event.preventDefault();
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            const response = await fetch("http://localhost:8080/auth/login", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ username, password })
+            });
+            const token = await response.text();
+            if (token !== "Invalid credentials") {
+                localStorage.setItem("token", token);
+                window.location.href = "home.html";
+            } else {
+                alert("Invalid login");
+            }
+        };
+    </script>
+
+
+</body>
+
+</html>
